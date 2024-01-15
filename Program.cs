@@ -8,11 +8,7 @@ namespace CatWorx.BadgeMaker
     static void Main(string[] args)
     {
       List<string> employees = GetEmployees();
-
-      for (int i = 0; i < employees.Count; i++)
-      {
-        Console.WriteLine(employees[i]);
-      } 
+      PrintEmployees(employees);
     }
 
     static List<string> GetEmployees()
@@ -31,5 +27,11 @@ namespace CatWorx.BadgeMaker
         }
         return employees;
       }
+
+    static void PrintEmployees(List<string> employees) {
+      for (int i = 0; i < employees.Count; i++) {
+        Console.WriteLine(employees[i]);
+      }
+    }
   }
 }
