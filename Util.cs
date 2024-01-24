@@ -55,6 +55,8 @@ namespace CatWorx.BadgeMaker
 
       int EMPLOYEE_NAME_Y = 600;
 
+      int EMPLOYEE_ID_Y = 730;
+
       using (HttpClient client = new HttpClient())
       {
         for (int i = 0; i < employees.Count; i++)
@@ -85,9 +87,15 @@ namespace CatWorx.BadgeMaker
           // Employee name
           canvas.DrawText(employees[i].GetFullName(), BADGE_WIDTH / 2f, EMPLOYEE_NAME_Y, paint);
 
+          // Reassign typeface to Courier New before drawing employee ID
+          paint.Typeface = SKTypeface.FromFamilyName("Courier New");
+
+          // Employee ID
+          canvas.DrawText(employees[i].GetId().ToString(), BADGE_WIDTH / 2f, EMPLOYEE_ID_Y, paint);
+
           SKImage finalImage = SKImage.FromBitmap(badge);
           SKData data = finalImage.Encode();
-          data.SaveTo(File.OpenWrite("data/employeeBadge.png"));
+          data.SaveTo(File.OpenWrite($"data/{employees[i].GetId()}_badge.png"));
         }
       }
     }
