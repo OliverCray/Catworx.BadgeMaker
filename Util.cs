@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using SkiaSharp;
+using System.Drawing;
 
 namespace CatWorx.BadgeMaker
 {
@@ -50,6 +51,10 @@ namespace CatWorx.BadgeMaker
       int PHOTO_RIGHT_X = 486;
       int PHOTO_BOTTOM_Y = 517;
 
+      int COMPANY_NAME_Y = 150;
+
+      int EMPLOYEE_NAME_Y = 600;
+
       using (HttpClient client = new HttpClient())
       {
         for (int i = 0; i < employees.Count; i++)
@@ -62,6 +67,23 @@ namespace CatWorx.BadgeMaker
 
           canvas.DrawImage(background, new SKRect(0, 0, BADGE_WIDTH, BADGE_HEIGHT));
           canvas.DrawImage(photo, new SKRect(PHOTO_LEFT_X, PHOTO_TOP_Y, PHOTO_RIGHT_X, PHOTO_BOTTOM_Y));
+
+          SKPaint paint = new SKPaint();
+          paint.TextSize = 42.0f;
+          paint.IsAntialias = true;
+          paint.Color = SKColors.White;
+          paint.IsStroke = false;
+          paint.TextAlign = SKTextAlign.Center;
+          paint.Typeface = SKTypeface.FromFamilyName("Arial");
+
+          // Company name
+          canvas.DrawText(employees[i].GetCompanyName(), BADGE_WIDTH / 2f, COMPANY_NAME_Y, paint);
+
+          // Reassign paint colour to black before drawing employee name
+          paint.Color = SKColors.Black;
+
+          // Employee name
+          canvas.DrawText(employees[i].GetFullName(), BADGE_WIDTH / 2f, EMPLOYEE_NAME_Y, paint);
 
           SKImage finalImage = SKImage.FromBitmap(badge);
           SKData data = finalImage.Encode();
